@@ -9,8 +9,8 @@ using CUDA
 include("ocean_benchmark_function.jl")
 
 arch = GPU() 
-Nx   = 2160
-Ny   = 1080
+Nx   = 1080
+Ny   = 900
 Nz   = 60
 
 # WENO 7 tracer advection
@@ -21,6 +21,7 @@ for _ in 1:5
     time_step!(model_periodic, 0.1)
 end
 
+# The actual profile
 CUDA.@profile begin
     Oceananigans.TimeSteppers.compute_tendencies!(model_periodic, [])
 end

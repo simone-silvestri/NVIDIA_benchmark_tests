@@ -8,8 +8,8 @@ using NVTX
 include("ocean_benchmark_function.jl")
 
 arch = GPU() 
-Nx   = 2160
-Ny   = 1080
+Nx   = 1080
+Ny   = 900
 Nz   = 60
 
 # WENO 7 tracer advection
