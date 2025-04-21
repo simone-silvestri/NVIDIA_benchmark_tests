@@ -80,7 +80,7 @@ NVTX.@range "Bounded topology, expensive vertical advection" begin
     end
 end
 
-cheap_vertical_advection = (WENO(order=7), WENO(order=7), Centered())
+cheap_vertical_advection = FluxFormAdvection(WENO(order=7), WENO(order=7), Centered())
 
 model_periodic = ocean_benchmark(arch, Nx, Ny, Nz, (Periodic, Periodic, Bounded), false, cheap_vertical_advection)
 model_bounded  = ocean_benchmark(arch, Nx, Ny, Nz, (Bounded,   Bounded, Bounded), false, cheap_vertical_advection)
