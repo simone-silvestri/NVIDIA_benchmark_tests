@@ -2,6 +2,17 @@ using CUDA
 using CUDA: CUDABackend
 import KernelAbstractions as KA
 
+# COPIED FROM https://github.com/JuliaGPU/CUDA.jl/blob/master/src/CUDAKernels.jl#L83
+function threads_to_workgroupsize(threads, ndrange)
+    total = 1
+    return map(ndrange) do n
+        x = min(div(threads, total), n)
+        total *= x
+        return x
+    end
+end
+
+# COPIED FROM https://github.com/JuliaGPU/CUDA.jl/blob/master/src/CUDAKernels.jl#L92
 function return_cuda_kernel(obj, args...; ndrange=nothing, workgroupsize=nothing)
     backend = KA.backend(obj)
 
