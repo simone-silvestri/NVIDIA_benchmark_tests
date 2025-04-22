@@ -2,8 +2,7 @@ using CUDA
 using CUDA: CUDABackend
 import KernelAbstractions as KA
 
-# Overload KA's kernel launch to return the CUDA kernel itself so we can compute the registers 
-function (obj::KA.Kernel{CUDABackend})(args...; ndrange=nothing, workgroupsize=nothing)
+function return_cuda_kernel(obj, args...; ndrange=nothing, workgroupsize=nothing)
     backend = KA.backend(obj)
 
     ndrange, workgroupsize, iterspace, dynamic = KA.launch_config(obj, ndrange, workgroupsize)
@@ -49,7 +48,7 @@ end
 
 function compute_registers(kernel_function, grid, kernel_params, args...)
    kernel, _ = Oceananigans.Utils.configure_kernel(grid.architecture, grid, kernel_params, kernel_function)
-   CUDA_kernel = kernel(args...)
+   CUDA_kernel = return_cuda_kernel(kernel, args...)
 
    @show CUDA.registers(CUDA_kernel)
 end   
